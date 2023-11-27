@@ -1,17 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+import { Navigate } from 'react-router';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import JudgeAuth from './pages/JudgeAuth.js';
+import JudgeApp from './pages/JudgeApp.js';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+document.body.style = 'background: #209e74;';
+
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Navigate to="/judge-manager/auth"/>}/>
+                <Route path="/judge-manager/app" element={<JudgeApp/>}/>
+                <Route path="/judge-manager/auth" element={<JudgeAuth/>}/>
+            </Routes>
+      </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
