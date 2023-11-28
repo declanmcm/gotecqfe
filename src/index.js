@@ -13,13 +13,13 @@ document.body.style = 'background: #209e74;';
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
-            <Routes>
+    <Switch>
                 <Route path="/gotecqfe" element={<Navigate to="/judge-manager/auth"/>}/>
                 <Route path="/judge-manager/app" element={<JudgeApp/>}/>
                 <Route path="/judge-manager/auth" element={<JudgeAuth/>}/>
                 <Route path="/judge-manager/app/user" element={<User/>}/>
                 <Route path="/judge-manager/app/problem" element={<Problem/>}/>
-            </Routes>
+          </Switch>
       </HashRouter>
   </React.StrictMode>,
   document.getElementById("root")
