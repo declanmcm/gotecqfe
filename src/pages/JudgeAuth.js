@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import {useState, useEffect} from "react";
 
-function JudgeAuth() { 
+const url = 'http://34.124.232.186:5000/login/';
+
+function JudgeAuth( { user, setUser } ) { 
     
     const navigate = useNavigate();
 
@@ -22,10 +24,7 @@ function JudgeAuth() {
     
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const handleLogin = () => {
-        navigate("/judge-manager/app")
-    };
+    const [failedLogin, setFailedLogin] = useState(false);
     
     const containerStyle = {
         width: '20%',
@@ -59,6 +58,34 @@ function JudgeAuth() {
         borderRadius: '5px',
         cursor: 'pointer',
     };
+
+    async function sendLoginDetails() {
+        let json = {};
+        try {
+            const data = { 'username': username, 'password': password };
+                    
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+        });
+        json = await response.json();
+        console.log(json);
+
+        if (json.error == "none") {
+            setUser(json.data);
+            navigate("/judge-manager/app")
+        } else {
+            setFailedLogin(true);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      return json;
+    }
   
     return (
         <div style={pageStyle}>
@@ -86,8 +113,9 @@ function JudgeAuth() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             />
+            {failedLogin ? <p style={{color: 'red', fontSize: '13px'}}>Incorrect username or password</p> : null}
 
-            <button type="button" style={buttonStyle} onClick={handleLogin}>
+            <button type="button" style={buttonStyle} onClick={sendLoginDetails}>
             Login
             </button>
         </form>

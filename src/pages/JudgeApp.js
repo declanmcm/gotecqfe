@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import {useState, useEffect} from "react";
 
-function JudgeApp() { 
+function JudgeApp( { user } ) { 
     
     const navigate = useNavigate();
 
