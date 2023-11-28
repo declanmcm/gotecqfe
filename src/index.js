@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Navigate } from 'react-router';
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Switch, Routes, Route } from "react-router-dom";
 import './index.css';
 import JudgeAuth from './pages/JudgeAuth.js';
 import JudgeApp from './pages/JudgeApp.js';
