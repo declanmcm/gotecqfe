@@ -31,7 +31,11 @@ function JudgeApp() {
     }
 
     const handleLogout = () => {
-        navigate("/judge-manager/auth")
+        navigate("/judge-manager/auth");
+    };
+
+    const handleAdminPage = () => {
+        navigate("/judge-manager/app/user");
     };
   
     return (
@@ -40,7 +44,7 @@ function JudgeApp() {
                 Welcome
             </h1>
             <div style={buttonContainerStyle}>
-                <button style={buttonStyle}>Admin page</button>
+                <button style={buttonStyle} onClick={handleAdminPage}>Admin page</button>
                 <button style={buttonStyle} onClick={handleLogout}>Logout</button>
             </div>
         </div>
