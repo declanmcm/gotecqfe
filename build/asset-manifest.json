@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/gotecqfe/static/css/main.e6c13ad2.css",
+    "main.js": "/gotecqfe/static/js/main.a446c9f0.js",
+    "index.html": "/gotecqfe/index.html",
+    "main.e6c13ad2.css.map": "/gotecqfe/static/css/main.e6c13ad2.css.map",
+    "main.a446c9f0.js.map": "/gotecqfe/static/js/main.a446c9f0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.a446c9f0.js"
+  ]
+}
