@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {useState, useEffect} from "react";
 import styles from '../styles.js';
 
-const url = 'http://34.124.232.186:5000/login/';
+const url = 'https://34.124.232.186:5000/login/';
 
 function JudgeAuth( { user, setUser } ) { 
     

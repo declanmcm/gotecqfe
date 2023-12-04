@@ -4,7 +4,7 @@ import Header from '../components/Header.js';
 import styles from '../styles.js';
 import List from "./List.js";
 
-const url = 'http://34.124.232.186:5000/admin/users/';
+const url = 'https://34.124.232.186:5000/admin/users/';
 
 function UserData( { currentUser, hidden, setHidden, items, setFilteredItems } ) {
     function toggleHidden() {

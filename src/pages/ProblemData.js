@@ -3,7 +3,7 @@ import {useState, useEffect} from "react";
 import Header from '../components/Header.js';
 import styles from '../styles.js';
 
-const url = 'http://34.124.232.186:5000/admin/users/';
+const url = 'https://34.124.232.186:5000/admin/users/';
 
 function ProblemData( { user, problem, hidden, setHidden } ) {
     const navigate = useNavigate();

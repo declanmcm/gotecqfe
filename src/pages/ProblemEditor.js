@@ -46,7 +46,7 @@ function ProblemEditor({ user, toEdit, id, setDisplayEdit }) {
             });
             console.log(data);
 
-            const response = await fetch("http://34.124.232.186:5000/admin/problem/" + toAppend, {
+            const response = await fetch("https://34.124.232.186:5000/admin/problem/" + toAppend, {
                 method: method,
                 headers: {
                 'Authorization': "Token " + storedToken

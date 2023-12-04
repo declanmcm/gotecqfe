@@ -8,7 +8,7 @@ import ReactDOM from "react-dom";
 import ProblemEditor from "./ProblemEditor.js";
 import "../modalStyle.css";
 
-const url = 'http://34.124.232.186:5000/';
+const url = 'https://34.124.232.186:5000/';
 
 function List( { user, type } ) {
     const navigate = useNavigate();
