@@ -36,7 +36,8 @@ const styles = {
         textAlign: 'center', 
         fontFamily: 'Helvetica, sans-serif', 
         color: 'white',  
-        fontSize: '76px'
+        fontSize: '76px',
+        paddingTop: 450
     },
 
     buttonStyle : {

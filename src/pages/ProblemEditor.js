@@ -1,14 +1,14 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from '../components/Header.js';
 import styles from '../styles.js';
 
-function ProblemEditor({ user }) {
+function ProblemEditor({ user, toEdit, id, setDisplayEdit }) {
 
-    const id = useParams().id;
-    const [problem, setProblem] = useState({
+    const navigate = useNavigate();
+    let initItem = {
         display_id: "",
-        is_visible: false,
+        is_visible: true,
         title: "",
         statement: "",
         difficulty: "Easy",
@@ -19,42 +19,11 @@ function ProblemEditor({ user }) {
         total_submission: "",
         correct_submission: "",
         statistic_info: ""
-    });
+    }
+    if (toEdit != null) initItem = toEdit;
+    const [problem, setProblem] = useState(initItem);
     const [error, setError] = useState(null);
     const [token, setToken] = useState('');
-
-    useEffect(() => {
-        const storedToken = window.localStorage.getItem('token');
-        if ( storedToken !== null ) setToken(storedToken);
-        console.log(storedToken);
-
-        const fetchData = async () => {
-            let data = null;
-            try {
-                const response = await fetch('http://34.124.232.186:5000/admin/problem', {
-                    method: "GET",
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': "Token " + storedToken}});
-                data = await response.json();
-                data.data.forEach(item => {
-                    if (item.id == parseInt(id)) {
-                        console.log(item);
-                        setProblem(item);
-                    }
-                });
-                console.log(data);
-            } catch (error) {
-                console.error("Error fetching sample", error);
-            } finally {
-                
-            }
-        };
-
-        if (id != "new") fetchData();
-
-        }, []);
 
     async function postProblem() {
         let method = "PUT";
@@ -63,6 +32,9 @@ function ProblemEditor({ user }) {
             method = "POST";
             toAppend = "";
         }
+
+        let storedToken = window.localStorage.getItem('token');
+        if ( storedToken !== "" ) setToken(storedToken);
 
         console.log(JSON.stringify(problem));
 
@@ -77,14 +49,19 @@ function ProblemEditor({ user }) {
             const response = await fetch("http://34.124.232.186:5000/admin/problem/" + toAppend, {
                 method: method,
                 headers: {
-                'Authorization': "Token " + token
+                'Authorization': "Token " + storedToken
                 },
                 body: data
             });
             let json = await response.json();
+            if (json.detail == "Invalid token") navigate('/judge-manager/auth');
             console.log(json);
             if (json.error != 'none') {
-                setError(json.data);
+                let error = json.data;
+                if (json.error == "Failed to handle request") {
+                    error = "Please fill all fields";
+                }
+                setError(error);
             }
         } catch (e) {
             console.log(e);
@@ -94,9 +71,8 @@ function ProblemEditor({ user }) {
     
     return (
         <div>
-            <Header text='Problem'/>
             <h1 style={styles.headingStyleProblem}>{id == "new" ? "Create new problem" : "Edit problem"}</h1>
-            <form onsubmit="return false;">
+            <form>
                 <fieldset style={styles.formStyleProblem}>
                     <div>
                         <label>
@@ -104,14 +80,6 @@ function ProblemEditor({ user }) {
                         </label>
                         <div>
                             <input value={problem.display_id} style={{width: '40%', fontSize: '24px'}} name="display_id" type="text" onChange={(e) => setProblem({...problem, display_id: e.target.value})}/>
-                        </div>
-                    </div>
-                    <div>
-                        <label>
-                            Is visible
-                        </label>
-                        <div>
-                            <input checked={problem.is_visible} type="checkbox" name="is_visible" onChange={(e) => setProblem({...problem, is_visible: e.target.value})}/>
                         </div>
                     </div>
                     <div>
@@ -155,7 +123,7 @@ function ProblemEditor({ user }) {
                             Sample test
                         </label>
                         <div>
-                        <textarea value={JSON.stringify(problem.sample_test)} style={{width: '55%', height: '150px'}} name="sample_test" onChange={(e) => {console.log(e); setProblem({...problem, sample_test: e.target.value??'123123'});}}>null</textarea>
+                        <textarea defaultValue={JSON.stringify(problem.sample_test)} style={{width: '55%', height: '150px'}} name="sample_test" onChange={(e) => {setProblem({...problem, sample_test: e.target.value??'123123'});}}/>
                         </div>
                     </div>
                     <div>
@@ -204,11 +172,14 @@ function ProblemEditor({ user }) {
                             Statistic info
                         </label>
                         <div>
-                            <textarea value={JSON.stringify(problem.statistic_info)} name="statistic_info" onChange={(e) => setProblem({...problem, statistic_info: e.target.value})}>null</textarea>
+                            <textarea defaultValue={JSON.stringify(problem.sample_test)} name="statistic_info" onChange={(e) => setProblem({...problem, statistic_info: e.target.value})}/>
                         </div>
                     </div>
                     <div>
-                        <button onClick={(e) => {e.preventDefault(); postProblem();}}>Save</button>
+                        <div style={{display: 'flex', alignItems: 'space-between'}}>
+                            <button onClick={(e) => {e.preventDefault(); postProblem();}}>Save</button>
+                            <button onClick={(e) => {e.preventDefault(); navigate('/judge-manager/app/problem/all')}} > Close </button>
+                        </div>
                         <p style={{fontSize: '20px', color: 'red'}}>{error != null ? error : null}</p>
                     </div>
                 </fieldset>
